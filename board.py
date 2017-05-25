@@ -28,15 +28,8 @@ class UTTT_Board(list):
                     for move in self[i][j].get_legal_moves():
                         legal_moves.append((i,j,move))
         else:
+            i, j = self.next_play[0], self.next_play[1]
             moves = self[i][j].get_legal_moves()
             for move in moves:
-                legal_moves.append((
-                    self.next_play[0],
-                    self.next_play[1],
-                    move
-                ))
+                legal_moves.append((i, j, move))
         return legal_moves
-                    
-        
-board = UTTT_Board()
-print(board.get_legal_moves())
