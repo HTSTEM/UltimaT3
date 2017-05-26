@@ -13,6 +13,10 @@ class TTT_Board(list):
                     legal_moves.append((i,j))
         return legal_moves
 
+    def play_move(self, move, player):
+        i, j = move[0], move[1]
+        self[i][j] = player # TODO: Implement check
+
 class UTTT_Board(list):
     def __init__(self):
         list.__init__(self,
@@ -33,3 +37,9 @@ class UTTT_Board(list):
             for move in moves:
                 legal_moves.append((i, j, move))
         return legal_moves
+
+    def play_move(self, move, player):
+        i, j = move[0], move[1]
+        sub_board = self[i][j]
+        sub_board.play_move(move[2], player)
+        self.next_play = move[2] # TODO: check if move[2] is won
