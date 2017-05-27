@@ -1,4 +1,9 @@
 class TTT_Board(list):
+    ui_map = [
+        ' ',
+        'X',
+        'O'
+    ]
     
     def __init__(self):
         list.__init__(self,
@@ -46,8 +51,20 @@ class TTT_Board(list):
                     return 0
         #is tie
         return -1
-
+    
+    def to_rows(self):
+        rows = ['' for i in range(3)]
+        for i in range(3):
+            for j in range(3):
+                rows[i]+=TTT_Board.ui_map[self[i][j]]
+        return rows
+            
 class UTTT_Board(list):
+    ui_map = {
+        -1:['***','***','***'],
+        1:['\\ /',' X ','/ \\'],
+        2:['/-\\','| |','\\_/']
+    }
     def __init__(self):
         list.__init__(self,
                       #3x3 of normal ttt boards
@@ -132,3 +149,27 @@ class UTTT_Board(list):
                     return 0
         #is tie
         return -1
+    
+    def to_UI(self):
+        rows = ['' for i in range(11)]
+        for i in range(3):
+            for j in range(3):
+                #3x3 array of chars indicating what ttt board should look like
+                symbol = []
+                if type(self[i][j]) == int:
+                    symbol = UTTT_Board.ui_map[self[i][j]]
+                else:
+                    symbol = self[i][j].to_rows()
+                #appends board to output  
+                for k in range(3):
+                    rows[4*i+k]+=symbol[k]
+                #draws big board
+                if j < 2:
+                    for k in range(3):
+                        rows[4*i+k]+='|'
+            #draw horizontal dividers
+            if i < 2:
+                rows[4*i+3]='---+---+---'
+        
+        print('\n'.join(rows))
+        print('\n')
